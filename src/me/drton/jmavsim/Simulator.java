@@ -71,8 +71,8 @@ public class Simulator {
         I.m22 = 0.009;  // Z
         vehicle.setMomentOfInertia(I);
         SimpleSensors sensors = new SimpleSensors();
-        sensors.setGPSDelay(200);
-        sensors.setGPSStartTime(System.currentTimeMillis() + 20000);
+        sensors.setGPSDelay(0);
+        sensors.setGPSStartTime(System.currentTimeMillis());
         vehicle.setSensors(sensors);
         vehicle.setDragMove(0.02);
         //v.setDragRotate(0.1);
@@ -104,7 +104,7 @@ public class Simulator {
         // Create visualizer
         visualizer = new Visualizer(world);
         // Put camera on vehicle (FPV)
-        visualizer.setViewerPositionObject(vehicle);   // Without gimbal
+        //visualizer.setViewerPositionObject(vehicle);   // Without gimbal
         // Put camera on vehicle with gimbal
         /*
         // Create camera gimbal
@@ -116,14 +116,13 @@ public class Simulator {
         visualizer.setViewerPositionObject(gimbal);      // With gimbal
         */
         // Put camera on static point and point to vehicle
-        /*
         visualizer.setViewerPosition(new Vector3d(-5.0, 0.0, -1.7));
         visualizer.setViewerTargetObject(vehicle);
         visualizer.setAutoRotate(true);
-        */
+
 
         // Open ports
-        serialMAVLinkPort.open("/dev/tty.usbmodem1", 230400, 8, 1, 0);
+        serialMAVLinkPort.open("/dev/ttyACM0", 230400, 8, 1, 0);
         serialMAVLinkPort.sendRaw("\nsh /etc/init.d/rc.usb\n".getBytes());
         udpMavLinkPort.open(new InetSocketAddress(14555));
 
